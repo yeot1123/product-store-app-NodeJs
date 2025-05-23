@@ -1,25 +1,27 @@
-// routes/index.js
 const express = require("express");
-const router = express.Router(); // ใช้ router แทน app
+const router = express.Router();
+let todos = [];
 
-let todos = []; // จำลองฐานข้อมูล
-
-// ทดสอบ endpoint /api/home
-router.get("/home", (req, res) => {
-  res.json("Hello Nodejs");
-});
-
-// GET ทั้งหมด
 router.get("/todos", (req, res) => {
   res.json(todos);
 });
 
-// POST เพิ่ม todo
 router.post("/todos", (req, res) => {
-  const { text } = req.body;
-  if (!text) return res.status(400).json({ error: "กรุณาใส่ข้อความ" });
+  const { username, age, bio, gender } = req.body;
 
-  const newTodo = { id: Date.now(), text };
+  // ตรวจสอบ input
+  if (!username || !age || !bio || !gender) {
+    return res.status(400).json({ error: "ข้อมูลไม่ครบ" });
+  }
+
+  const newTodo = {
+    id: Date.now(),
+    username,
+    age,
+    bio,
+    gender,
+  };
+
   todos.push(newTodo);
   res.status(201).json(newTodo);
 });
